@@ -6,8 +6,19 @@ prismTheme: okaidia
 
 # Node.js APM 调研及原理分析 {.text-landing.text-shadow}
 
-<!-- By 齐云雷 {.text-intro} -->
 <!-- Powered by nodeppt -->
+<!-- By 齐云雷 {.text-intro} -->
+
+<slide class="bg-black-blue slide-top">
+# 个人介绍
+
+---
+---
+:::div {.content-center}
+
+- Node.js工程师 @微医集团-消费事业群
+
+- GitHub @Claude-Ray
 
 <slide class="bg-black-blue aligncenter">
 # APM
@@ -94,7 +105,7 @@ Node.js APM 产业的龙头，虽然监控服务需要付费，数据上传到�
 ## [OneAPM](https://www.oneapm.com/ai/nodejs.html)
 ---
 :::div {.content-left}
-定位类似听云。
+定位类似听云，支持私有部署。
 
 <slide class="bg-black-blue aligncenter">
 # 市场调研-开源/免费软件
@@ -105,9 +116,9 @@ Node.js APM 产业的龙头，虽然监控服务需要付费，数据上传到�
 
 :::div {.content-left}
 
-Runtime？
+Runtime？ 数据安全？
 
-数据安全？
+---
 
 争议较大...
 
@@ -116,7 +127,8 @@ Runtime？
 ---
 
 :::div {.content-left}
-Alinode 对 Node Runtime 增加了哪些改动？
+Alinode 对 Node Runtime 增加了哪些改动？引自[hyj1991](https://github.com/hyj1991)的[知乎回答](
+https://www.zhihu.com/question/315261661/answer/637417008)
 
 • 增加了一些 V8 没有对外暴露的接口，比如 GC Trace 来动态输出 GC 日志
 
@@ -144,9 +156,7 @@ Alinode 对 Node Runtime 增加了哪些改动？
 
 :::div {.content-left}
 
-功能相对简单，仅提供性能监控与分析，维护度较低。
-
-目前最大的价值是作为学习项目，而不是投入生产环境。
+hyj1991 的作品，功能相对简单，仅供性能监控与分析。目前维护度较低，适合作为学习项目。
 
 <slide class="bg-black-blue slide-top" image="https://img.alicdn.com/tfs/TB1k04KhY_I8KJjy1XaXXbsxpXa-2540-1996.png .dark">
 # [Pandora.js](https://midwayjs.org/pandora/zh-cn/)
@@ -162,11 +172,9 @@ Alinode 对 Node Runtime 增加了哪些改动？
 # [Prometheus](https://prometheus.io/)
 ---
 :::div {.content-left}
-在国外非常流行，相比业务方，更多地被运维熟知，是一种监控和报警的开源生态。Agent 和界面有多重组合方式，Node.js 一般结合 `prom-client`(非官方 npm 包) + `Granfana` 使用。
+在国外非常流行，更多地被 k8s 圈熟知，是一种监控和报警的开源生态。Agent 和界面有多重组合方式，Node.js 一般结合 `prom-client`(非官方 npm 包) + `Granfana` 使用。
 
 只做性能采集，不支持 trace 跟踪。目前已知缺陷是内存占用较高和日志量巨大，数据可以选择本地存储或远程接口存储。
-
-开源的一大选择方案，落地可能对运维团队要求较高
 
 <slide class="bg-black-blue slide-top" image="https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blte0af23fc549e1e02/5ca6865b154fe31d3366fa5e/apm-animation-opbeans-python-app.gif .dark">
 # [Elastic APM](https://www.elastic.co/solutions/apm)
@@ -175,45 +183,54 @@ Alinode 对 Node Runtime 增加了哪些改动？
 :::div {.content-left}
 Elastic 体系下的完全开源的 APM 解决方案，也提供商业付费服务。
 
-apm-server ElasticSearch，Kibana 内置了 APM 基础看板。
-
-官方提供 API 来支持深度定制，golang 降低了二次开发的成本，更不用担心 Kibana 看板功能不够用。总之，是相当全面的解决方案。
-
 <slide class="bg-black-blue aligncenter">
 # 选型概述
 
 <slide class="bg-black-blue slide-top">
 # 主要维度
 ---
+---
+---
 <div style="font-size:24px">
+
 :::flexblock
+<br>
 • 性能监控
 
 ---
+<br>
 • 代码级监控
 
 ---
+<br>
 • 事务监控
 
 ---
+<br>
 • 框架支持
 
 ---
+<br>
 • 链路追踪
 
 ---
+<br>
 • 分布式部署
 
 ---
+<br>
 • 代码侵入
 
 ---
+<br>
 • 社区活跃度
 
 ---
+<br>
 • 数据安全
 
 ---
+<br>
 • 外部依赖
 
 </div>
@@ -222,17 +239,17 @@ apm-server ElasticSearch，Kibana 内置了 APM 基础看板。
 
 |名称|Express|Koa|性能|代码级|事务|链路|分布式|侵入|实现方式|npm周下载量(+)|
 |-|-|-|-|-|-|-|-|-|-|-|
-|newrelic     |✓|✓|✓|✓|✓|✓|✓|低|探针|30.1k|
-|appdynamics  |✓|✓|✓|✓|✓|✓|✓|低|探针|9.5k|
-|dynatrace    |✓|✓|✓|✓|✓|✓|✓|低|探针|0.1k|
-|atatus       |✓|✓|✓|×|✓|✓|✓|低|探针|0.6k|
-|tingyun      |✓|✓|✓|✓|✓|✓|✓|低|探针|0.3k|
-|one apm      |✓|×|✓|✓|✓|✓|✓|低|探针|0.1k|
-|alinode      |✓|✓|✓|✓|✓|✓|✓|无|run time|-|
-|easy monitor |✓|✓|✓|×|×|×|✓|低|探针|0.1k|
-|pandora      |✓|✓|✓|×|✓|✓|×|极低|进程启动器|0.2k|
-|Prometheus   |✓|✓|✓|×|✓|✓|✓|低|探针|20.1k|
-|elastic apm  |✓|✓|✓|✓|✓|✓|✓|低|探针|24.6k
+|NewRelic     |⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|低|探针|32.2k|
+|AppDynamics  |⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|低|探针|9.5k|
+|Dynatrace    |⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|低|探针|0.2k|
+|Atatus       |⭕️️|⭕️️|⭕️️|❎️|⭕️️|⭕️️|⭕️️|低|探针|0.6k|
+|Tingyun      |⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|低|探针|0.1k|
+|OneAPM       |⭕️️|❎️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|低|探针|0.2k|
+|AliNode      |⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|无|运行时|-|
+|Easy Monitor |⭕️️|⭕️️|⭕️️|❎️|❎️|❎️|⭕️️|低|探针|0.2k|
+|Pandora      |⭕️️|⭕️️|⭕️️|❎️|⭕️️|⭕️️|❎️|极低|进程启动器|0.7k|
+|Prometheus   |⭕️️|⭕️️|⭕️️|❎️|⭕️️|⭕️️|⭕️️|低|探针|22.4k|
+|Elastic APM  |⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|⭕️️|低|探针|27.6k|
 
 <slide class="bg-black-blue aligncenter">
 # Elastic APM
@@ -265,6 +282,7 @@ apm-server ElasticSearch，Kibana 内置了 APM 基础看板。
 :::div {.content-left}
 ---
 - 自定义 Node.js 框架和路由。
+
 - 上报错误 stack，支持 source map 。
 - 支持采集 http 请求的 body 参数（默认关闭）。
 - 过滤敏感信息，根据请求头、或自定义维度。
@@ -276,15 +294,22 @@ apm-server ElasticSearch，Kibana 内置了 APM 基础看板。
 
 <slide class="bg-black-blue slide-top">
 # 数据上报
----
+
 :::div {.content-center}
-<br>
-<br>
-``` {.animated.fadeInUp}
-elastic-apm-node(node)  ➡   apm-server(golang)
-                                   ⬇
-     kibana(展示层)      ➡   elasticsearch(数据层)
-```
+
+---
+---
+---
+---
+![Data Reporting](./image/data-reporting.png) {.animated.fadeInUp}
+
+<!-- ``` {.animated.fadeInUp} -->
+<!-- elastic-apm-node(node)  ➡   apm-server(golang) -->
+                                   <!-- ⬇ -->
+     <!-- kibana(展示层)      ➡   elasticsearch(数据层) -->
+<!-- ``` -->
+
+</div>
 
 <slide class="bg-black-blue slide-top">
 # 目录结构
@@ -292,11 +317,15 @@ elastic-apm-node(node)  ➡   apm-server(golang)
 :::div {.content-center}
 
 - lib
+
   - filters
+
   - instrumentation
     - module
+
   - metrics
     - platform
+
   - middleware
 
 <slide class="bg-black-blue slide-top">
@@ -304,12 +333,17 @@ elastic-apm-node(node)  ➡   apm-server(golang)
 ---
 :::div {.content-center}
 
-#### Transaction
+- #### Error
+
+- #### Metric
+
+- #### Transaction
 ---
-#### Error
----
-#### Metric
----
+
+<slide class="bg-black-blue aligncenter">
+# Error
+
+<slide class="bg-black-blue aligncenter" image="https://www.elastic.co/guide/en/kibana/current/apm/images/apm-error-group.png">
 
 <slide class="bg-black-blue slide-top">
 # Error
@@ -343,42 +377,65 @@ module.exports = function (err) {
 Error.prepareStackTrace(error, structuredStackTrace)
 ```
 
-这个接口常常被用来格式化错误信息，`structuredStackTrace` 包含了一组 CallSite 对象，CallSite 对象支持的方法有：
+这个接口常常被用来格式化错误信息，`structuredStackTrace` 包含了一组 CallSite 对象，其支持的方法有：
 
-getThis, getTypeName, getFunction, getFunctionName, getMethodName, getFileName, getLineNumber, getColumnNumber, getEvalOrigin, isToplevel, isEval, isNative, isConstructor, isAsync, isPromiseAll, getPromiseIndex
+- <h5>getThis, getTypeName, getFunction, getFunctionName, getMethodName, getFileName, getLineNumber, getColumnNumber, getEvalOrigin, isToplevel, isEval, isNative, isConstructor, isAsync, isPromiseAll, getPromiseIndex<h5>
+---
 
-借助 CallSite 可以拿到 Error 抛出的文件、行列位置。
+借此记录 Error 抛出的文件、行列等坐标信息。
+
 <slide class="bg-black-blue aligncenter">
 # Metric
 
-<slide class="bg-black-blue slide-top">
-# Metric概述
----
-:::div {.content-center}
+<slide class="bg-black-blue aligncenter" image="https://www.elastic.co/guide/en/kibana/current/apm/images/apm-metrics.png">
 
-一般来说，Node.js 原生暴露的接口足够对进程性能的基本状况有所判断了，但 APM 系统总是希望监控更详细的信息。尤其是系统 CPU、内存占用率的走势图。一部分探针选择用纯 JS 计算，另一部分探针选择使用 C++ 获取/计算。使用 C++ 的库一般还会获取更复杂的指标，如 [appmetrics](https://github.com/RuntimeTools/appmetrics) 会获取一部分 GC、Event loop 信息。
+<slide class="bg-black-blue slide-top">
+# Metric 概述
+---
+:::div {.content-left}
+
+Node.js 原生接口足够应对基本的性能监控，但需要一些加工：
+
+  - 纯 JS 计算。
+
+  - C++ 计算。一般还会获取更复杂的指标，如 [appmetrics](https://github.com/RuntimeTools/appmetrics) 会获取一部分 GC、Event loop 信息。
 
 <slide class="bg-black-blue slide-top">
 # Elastic Metric
 ---
-:::div {.content-center}
+:::div {.content-left}
 
-- /proc/meminfo\: 记录系统内存信息，用来获取两个指标：MemAvailable 和 MemTotal。对应 `os.totalmem()` 和 `os.freemem()`。
-- /proc/stat\: 记录 CPU 活动信息，用来获取两个指标：cpuTotal 和 cpuUsage。这一步用 Node.js 计算略麻烦，需要定时缓存 `os.cpus()` 的 `times.total` `times.idle`指标。
-- /proc/self/stat\: 不同于前面两个记录系统级信息的文件，此文件记录了当前进程的所有活动信息。用来获取进程 CPU 使用率和 RSS 内存。对应 `processTop.cpu().percent / cpus.length` 和 `process.memoryUsage().rss`。
+- `/proc/meminfo`\: 
+
+  os.totalmem(), os.freemem()
+<!-- 记录系统内存信息，用来获取两个指标：MemAvailable 和 MemTotal。 -->
+
+- `/proc/stat`\:
+
+  times.total, times.idle [os.cpus()]
+<!-- 记录 CPU 活动信息，用来获取两个指标：cpuTotal 和 cpuUsage。这一步用 Node.js 计算略麻烦，需要定时缓存 `os.cpus()` 的 `times.total` `times.idle`指标。-->
+
+- `/proc/self/stat`\:
+
+  process.memoryUsage().rss, process.cpuUsage([previousValue]), process.hrtime([time])
+<!-- 不同于前面两个记录系统级信息的文件，此文件记录了当前进程的所有活动信息。用来获取进程 CPU 使用率和 RSS 内存。-->
+
+<slide class="bg-black-blue aligncenter">
+# Transaction
+
+<slide class="bg-black-blue aligncenter" image="https://www.elastic.co/guide/en/kibana/current/apm/images/apm-transactions-overview.png">
 
 <slide class="bg-black-blue slide-top">
-# Transaction概述
+# Transaction 概述
 ---
-:::div {.content-center}
+:::div {.content-left}
 Elastic APM 中的事务，类似于 opentracing 中的 Span，但把一个请求中所有的 Span 抽象为一个概念。Transaction 实现的基础是各种代码钩子。
 
 <slide class="bg-black-blue slide-top">
-# Patch
+# addPatch
 ---
 :::div {.content-center}
 ```js
-// koa
 module.exports = function (koa, agent, { version, enabled }) {
   if (!enabled) return koa
 
@@ -423,11 +480,11 @@ shimmer.wrap(Router.prototype, 'match', function (orig) {
 ```
 
 <slide class="bg-black-blue slide-top">
-# async-hook
+# Async Hooks
 :::div {.content-center}
 
 ```js
-// 基于 async-hook 封装了 Instrumentation 的 `currentTransaction` 方法
+// 基于 async_hooks 封装了 Instrumentation 的 `currentTransaction` 方法
 // 使异步操作中随时可以拿到当前 async scope id 下的 Transaction 实例。
 const asyncHooks = require('async_hooks')
 module.exports = function (ins) {
@@ -454,7 +511,7 @@ module.exports = function (ins) {
 ```
 
 <slide class="bg-black-blue slide-top">
-# async-hook
+# Async Hooks
 ```js
 // 下面是 currentTransaction 的一处应用
 Instrumentation.prototype.bindFunction = function (original) {
@@ -484,27 +541,45 @@ Instrumentation.prototype.bindFunction = function (original) {
 ```
 
 <slide class="bg-black-blue slide-top">
-# async-hook
+# Async Hooks
 ---
 
-:::div {.content-center}
+:::div {.content-left}
 
-- async hook 是 Node.js 8 以后出现的概念，为了兼容旧版本，Elastic APM 借助 `async-listener` 模块做了一些兼容，尽管 Elastic APM 官方不推荐使用低版本 Node.js 接入。
+- Async Hooks 是 Node.js 8 以后出现的概念，为了兼容旧版本，Elastic APM 借助 `async-listener` 模块做了一些兼容，尽管 Elastic APM 官方不推荐使用低版本 Node.js 接入。
 
 - 虽然 async hook 更进一步可以帮助优化异步调用栈，改善异步 Error 信息的可读性，但 APM 很难从底层判断哪些异步 CallSite 是用户想保留的，所以没有做这种处理。
+
+<slide class="bg-black-blue slide-top">
+# Span
+---
+#### 事务拆解而得，形成调用链
+
+---
+
+:::div {.content-left}
+
+- #### &nbsp; SQL、NoSQL 数据库查询
+
+- #### &nbsp; 外部 HTTP、Socket 请求
+
+- #### &nbsp; 自定义 Span
+
+<slide class="bg-black-blue slide-top" image="https://www.elastic.co/guide/en/kibana/current/apm/images/apm-distributed-tracing.png">
 
 <slide class="bg-black-blue slide-top">
 # Stack Trace
 ---
 :::div {.content-center}
-- Span 用来记录 database、http、websocket 等细致操作，Elastic APM 同时还记录了调用栈。
 
-- 通常我们用 console.trace、Error 定位调用栈，实际上他们都使用来自 V8 的方法，在 Node.js 中也可以直接调用 —— `Error.captureStackTrace(error, constructorOpt)`
+- `console.trace`、`new Error`
+
+- `Error.captureStackTrace(error, constructorOpt)`
+
+<!-- error 是记录 trace 的必传对象，trace 字符串将附加到对象的 stack 属性上 -->
+<!-- constructorOpt 是用来隐藏底层调用栈的可选函数，用法如下 -->
 
 ```js
-// error 是记录 trace 的必传对象，trace 字符串将附加到对象的 stack 属性上
-// constructorOpt 是用来隐藏底层调用栈的可选函数，用法如下
-
 function MyError() {
   Error.captureStackTrace(this, MyError);
   // Any other initialization goes here.
@@ -515,7 +590,7 @@ function MyError() {
 # 小插曲
 ---
 :::div {.content-center}
-- 上面提到的 V8 Error trace API，结合 TJ 的 `callsite` 更容易理解，功能是获取当前的 CallSite 集合。
+结合 TJ 的 `callsite` 理解 V8 Error trace API
 
 ```js
 module.exports = function(){
@@ -529,8 +604,40 @@ module.exports = function(){
 };
 ```
 
+<slide class="bg-black-blue slide-top">
+# 踩过的坑
+---
+---
+:::div {.content-left}
+
+### &nbsp; Error Trace
+
+### &nbsp; SSR Router
+
+### &nbsp; Egg.js
+
+<slide class="bg-black-blue slide-top">
+
+<img src="./image/dashboard.png" width = "100%" alt="dashboard"/>
+
+<slide class="bg-black-blue slide-top">
+# 未来工作
+---
+---
+:::div {.content-left}
+
+### &nbsp; 本地化
+
+### &nbsp; 性能优化
+
+### &nbsp; ...
+
 <slide class="bg-black-blue aligncenter">
-# 踩过的坑...
+# Q&A
+
+---
+
+<img src="./image/qrcode.png" width = "240" height = "240" alt="qrcode"/>
 
 <slide class="bg-black-blue aligncenter">
 # Thank you!
